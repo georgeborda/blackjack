@@ -5,8 +5,9 @@ def main():
     game.create_players()
     game.place_bet()  
     game.deal_round_cards()
-    game.show_cards()
-    game.players_decision()
+    game.show_all_hands()
+    #game.players_decision()
+    game.play()
 
 if __name__ == '__main__':
     main()
