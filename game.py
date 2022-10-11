@@ -1,5 +1,7 @@
 from player import Player
 from hand import Hand
+from handplayer import HandPlayer
+from handdealer import HandDealer
 import random
 import cards
 import clear
@@ -30,13 +32,13 @@ class Game:
         for player in self.all_players:
             if player.name == "Dealer":
                 player_bet = 0
-                new_hand = Hand(bet = player_bet, player = player)
+                new_hand = HandDealer(bet = player_bet, player = player)
                 self.round_hands.append(new_hand)
             else:
                 print(f"{player.name} your balance is {player.chips} chips")
                 player_bet = int(input(f"What is your bet? "))
                 if player_bet != 0:
-                    new_hand = Hand(bet = player_bet, player = player)
+                    new_hand = HandPlayer(bet = player_bet, player = player)
                     self.round_hands.append(new_hand)
             sum_bet += player_bet
         if sum_bet == 0:
@@ -67,5 +69,6 @@ class Game:
                     dealer_hand.show_hand()
                     hand.show_hand()
                     hand.player_decision()
+            print(hand.status)
         
     
