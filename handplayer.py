@@ -26,14 +26,11 @@ class HandPlayer(Hand):
 
 
     def double_down(self):
+        self.player.chips -= self.bet
         self.bet *= 2
         self.hit()
         self.status = "DoubleDown"
         
-      
-    def split(self):
-        pass
-
 
     def decision_options(self):
         def get_decision(total):
@@ -43,7 +40,7 @@ class HandPlayer(Hand):
                 get_decision(total)
             return decision
 
-        if len(self.hand_cards) == 2:
+        if len(self.hand_cards) == 2 and self.status != "Split":
             total = 4
             print("1. Stand")
             print("2. Hit")
@@ -80,4 +77,6 @@ class HandPlayer(Hand):
         elif decision == 4:
             self.double_down()
         elif decision == 5:
-            self.split()
+            self.status = "Split"
+
+        return decision

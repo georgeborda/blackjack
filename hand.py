@@ -36,7 +36,7 @@ class Hand:
         if self.bet != 0:
             print(f"   Cards: {self.hand_cards}")
             print(f"   Bet: {self.bet}")
-            print(f"   Balance: {self.player.chips - self.bet}")
+            print(f"   Balance: {self.player.chips}")
         else:
             dealer_hand = self.hand_cards
             dealer_hand[0] = " "
@@ -50,7 +50,7 @@ class Hand:
         elif self.status == "DoubleDown":
             self.stand()
             
-        if self.status != "InGame":
+        if self.status != "InGame" and self.status != "Split":
             return False
         else:
             return True
