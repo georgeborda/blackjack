@@ -9,15 +9,19 @@ class Hand:
         self.player = player
         self.hand_cards = [] 
         self.status = "InGame"
+        self.max_value = 0
 
   
+
     def deal_card(self):
-        random_card = random.choice(cards.cards_list)
+        random_card = random.choice(cards.cards_list) 
         self.hand_cards.append(random_card)
+
 
 
     def hit(self):
         self.deal_card()
+
 
 
     def hand_value(self):
@@ -31,18 +35,12 @@ class Hand:
         return sum
 
 
+
     def show_hand(self):
         print(f"\n{self.player.name}:")
-        if self.bet != 0:
-            print(f"   Cards: {self.hand_cards}")
-            print(f"   Bet: {self.bet}")
-            print(f"   Balance: {self.player.chips}")
-        else:
-            dealer_hand = self.hand_cards
-            dealer_hand[0] = " "
-            print(f"   Cards: {dealer_hand}")
 
-  
+
+
     def check_hand_status(self):
         if self.hand_value()[0] > 21:
             self.status = "Bust"
@@ -50,11 +48,21 @@ class Hand:
         elif self.status == "DoubleDown":
             self.stand()
             
-        if self.status != "InGame" and self.status != "Split":
+        if self.status != "InGame" and self.status != "Split" and self.status != "Playing":
             return False
         else:
             return True
 
+
+
+    def check_max_value(self):
+        hand_values = self.hand_value()
+        if len(hand_values) == 2:
+            if hand_values[1] <= 21:
+                self.max_value = hand_values[1]
+        else:
+            self.max_value = hand_values[0]
+        #return self.max_value
     
 
             

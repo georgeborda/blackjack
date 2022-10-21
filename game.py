@@ -1,9 +1,6 @@
 from player import Player
-from hand import Hand
 from handplayer import HandPlayer
 from handdealer import HandDealer
-import random
-import cards
 import clear
 
 class Game:
@@ -11,15 +8,38 @@ class Game:
     all_players = []
     round_hands = []
 
+
     def create_players(self):
         clear.reset_screen()
-        number_players = int(input("How many players are there? "))
+        while True:
+            try:
+                number_players = int(input("How many players are there (1 - 5)? "))
+            except ValueError:
+                print("Input a number")
+                continue
+            if number_players < 1 or number_players > 5:
+                print("Input a number between 1 and 5")
+            else:
+                break
+
         dealer = Player(name = "Dealer", chips = "1000000")
         self.all_players.append(dealer)
+        clear.reset_screen()
         for player in range(number_players):
             name_player = input(
-                f"\nWhat is the name of player number {player + 1 }? ")
-            chips = int(input(f"How many chips will buy {name_player}? "))
+                f"What is the name of player number {player + 1 }? ")
+            while True:
+                try:
+                    chips = int(input(f"How many chips will buy {name_player}? "))
+                    print("\n")
+                except ValueError:
+                    print("Input a number")
+                    continue
+                if chips < 1:
+                    print("Input a number greater than 0")
+                else:
+                    break
+                
             new_player = Player(name_player, chips)
             self.all_players.append(new_player)
         
@@ -36,29 +56,44 @@ class Game:
                 self.round_hands.append(new_hand)
             else:
                 print(f"{player.name} your balance is {player.chips} chips")
-                player_bet = int(input(f"What is your bet? "))
+                while True:
+                    try:
+                        player_bet = int(input(f"What is your bet? "))
+                    except ValueError:
+                        print("Input a number")
+                    if player_bet < 0:
+                        print("The bet can´t be negative")
+                    elif player_bet > player.chips:
+                        print("The bet can´t be greater than your balance")
+                    else:
+                        break
                 if player_bet != 0:
                     new_hand = HandPlayer(bet = player_bet, player = player)
                     player.chips -= player_bet
                     self.round_hands.append(new_hand)
+                print("\n")
             sum_bet += player_bet
         if sum_bet == 0:
-            print("No player place a bet")
+            print("\nNo player place a bet")
+            input()
             self.place_bet()
          
   
+
     def deal_round_cards(self):
         for i in range(2):
             for hand in self.round_hands:
                 hand.deal_card()
 
-      
-    def show_all_hands(self):
+
+
+    def show_all_hands(self, is_final_hand = False):
         clear.reset_screen()
         print("These are the hands:\n")
         for hand in self.round_hands:
             hand.show_hand()
-        input("\nType any character to continue.")
+        input("")
+
 
 
     def split(self, index):
@@ -81,6 +116,7 @@ class Game:
         second_hand.deal_card()
 
 
+
     def play(self):
         dealer_hand = self.round_hands[0]
         index = 0
@@ -92,11 +128,29 @@ class Game:
                     dealer_hand.show_hand()
                     hand.show_hand()
                     decision = hand.player_decision()
-                    if decision == 5:
+                    if decision  == 5:
                         self.split(index)
                 if hand.status == "Split":
                     index -= 1
             index += 1
+        print("The dealer hand is:\n")
+        dealer_hand.dealer_play()
+
+
+    
+    def payout(self):
+        clear.reset_screen()
+        dealer_hand = self.round_hands[0]
+        dealer_hand.check_max_value()
+        print(f"\n{dealer_hand.player.name.upper()}")
+        print(f"   Cards: {dealer_hand.hand_cards}")
+        for index in range(1, len(self.round_hands)):
+            hand = self.round_hands[index]
+            profit = hand.bet_result(dealer_hand)
+            hand.show_payout(profit)
+
+            
+            
             
     
         

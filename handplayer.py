@@ -7,6 +7,7 @@ class HandPlayer(Hand):
         super().__init__(bet, player)
 
 
+
     def stand(self):
         clear.reset_screen()
         if self.status != "Bust":
@@ -17,7 +18,8 @@ class HandPlayer(Hand):
         self.show_hand()
         input()
 
-    
+
+
     def surrender(self):
         clear.reset_screen()
         self.status = "Surrender"
@@ -25,19 +27,35 @@ class HandPlayer(Hand):
         input()
 
 
+
     def double_down(self):
         self.player.chips -= self.bet
         self.bet *= 2
         self.hit()
         self.status = "DoubleDown"
-        
+
+
+    
+    def show_hand(self):
+        super().show_hand()
+        print(f"   Cards: {self.hand_cards}")
+        print(f"   Bet: {self.bet}")           
+        print(f"   Balance: {self.player.chips}")
+   
+
 
     def decision_options(self):
         def get_decision(total):
-            decision = int(input("\nType the number of your decision: "))
-            if decision < 1 or decision > total:
-                print("The number is not a valid option")
-                get_decision(total)
+            while True:
+                try:
+                    decision = int(input("\nType the number of your decision: "))
+                except ValueError:
+                    print(f"Input a number between 1 and {total}")
+                    continue
+                if decision < 1 or decision > total:
+                    print(f"Input a number between 1 and {total}")
+                else:
+                    break
             return decision
 
         if len(self.hand_cards) == 2 and self.status != "Split":
@@ -55,6 +73,7 @@ class HandPlayer(Hand):
             print("2. Hit")
 
         return get_decision(total)
+
 
 
     def player_decision(self):
@@ -80,3 +99,44 @@ class HandPlayer(Hand):
             self.status = "Split"
 
         return decision
+ 
+
+
+    def bet_result(self, dealer_hand):
+        profit = int
+        self.check_max_value()
+        if self.max_value == 21 and len(self.hand_cards) == 2:
+            if dealer_hand.max_value == 21 and len(dealer_hand.hand_cards) == 2:
+                # player and dealer have blackjack
+                profit = 0
+            else:
+                # player has blackjack
+                profit = 1.5 * self.bet
+        else:
+            if self.status == "Surrender":
+                profit = -self.bet / 2
+            elif self.status == "Bust":
+                profit = -self.bet 
+            elif dealer_hand.status == "Bust":
+                profit = self.bet
+            else:
+                if self.max_value == dealer_hand.max_value:
+                    #Push
+                    profit = 0
+                elif self.max_value > dealer_hand.max_value:
+                    #Player win
+                    profit = self.bet
+                else:
+                    #Player lose
+                    profit = -self.bet
+        self.player.chips = self.player.chips + self.bet + profit
+        return profit
+
+    
+    
+    def show_payout(self, profit):
+        print(f"\n{self.player.name.upper()}")
+        print(f"   Cards: {self.hand_cards}")
+        print(f"   Previous balance: {self.player.chips - profit}")
+        print(f"   Bet: {self.bet}")
+        print(f"   New balance: {self.player.chips}") 
