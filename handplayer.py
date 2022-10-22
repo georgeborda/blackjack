@@ -9,6 +9,7 @@ class HandPlayer(Hand):
 
 
     def stand(self):
+        """The player wants to keep his current hand"""
         clear.reset_screen()
         if self.status != "Bust":
             self.status = "Stand"
@@ -45,6 +46,7 @@ class HandPlayer(Hand):
 
 
     def decision_options(self):
+        """Give the options to the player depending on his hand"""
         def get_decision(total):
             while True:
                 try:
@@ -82,6 +84,7 @@ class HandPlayer(Hand):
 
 
     def player_decision(self):
+        """Take the player's decision and make the changes to his hand and his bet"""
         sum_cards = []
         sum_cards = self.hand_value()
         print(f"\n{self.player.name}, what do you want to do?:\n")
@@ -108,6 +111,7 @@ class HandPlayer(Hand):
 
 
     def bet_result(self, dealer_hand):
+        """Check the result of the round, calculate the profit and return it"""
         profit = int
         self.check_max_value()
         if self.max_value == 21 and len(self.hand_cards) == 2:

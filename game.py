@@ -48,6 +48,7 @@ class Game:
       
   
     def place_bet(self):
+        """Ask for a bet, create the hands and link each one with the player"""
         clear.reset_screen()
         self.round_hands.clear()
         sum_bet = 0
@@ -99,6 +100,7 @@ class Game:
 
 
     def split(self, index):
+        """Split the hand when the player has two equal cards, deal a new card for each hand and place a bet for the second hand"""
         clear.reset_screen()
         first_hand = self.round_hands[index]
         player = first_hand.player
@@ -120,6 +122,7 @@ class Game:
 
 
     def play(self):
+        """The players play, take their decisions, the dealer shows his hidden card and plays too"""
         dealer_hand = self.round_hands[0]
         index = 0
         while index < len(self.round_hands):
@@ -141,6 +144,7 @@ class Game:
 
 
     def payout(self):
+        """The dealer takes or gives money depending on the hands and bets"""
         clear.reset_screen()
         dealer_hand = self.round_hands[0]
         dealer_hand.check_max_value()

@@ -9,6 +9,7 @@ class HandDealer(Hand):
 
 
     def stand(self):
+        """The dealer keeps his hand"""
         clear.reset_screen()
         if self.status != "Bust":
             self.status = "Stand"
@@ -30,6 +31,7 @@ class HandDealer(Hand):
 
 
     def dealer_play(self):
+        """Perform actions depending on the dealer's hand"""
         clear.reset_screen()
         sum_cards = []
         sum_cards = self.hand_value()

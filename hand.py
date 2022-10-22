@@ -25,6 +25,7 @@ class Hand:
 
 
     def hand_value(self):
+        """"Create a list with the sum of the cards in the hand"""
         sum = []
         sum.append(0)
         for card in self.hand_cards:

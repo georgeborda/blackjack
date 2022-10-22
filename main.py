@@ -15,6 +15,6 @@ def main():
         game.buy_chips()
         lets_play = game.check_balances()
     clear.farewell()
-
+        
 if __name__ == '__main__':
     main()
