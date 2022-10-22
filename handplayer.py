@@ -58,7 +58,12 @@ class HandPlayer(Hand):
                     break
             return decision
 
-        if len(self.hand_cards) == 2 and self.status != "Split":
+        if self.bet > self.player.chips:
+            total = 3
+            print("1. Stand")
+            print("2. Hit")
+            print("3. Surrender")
+        elif len(self.hand_cards) == 2 and self.status != "Split":
             total = 4
             print("1. Stand")
             print("2. Hit")
@@ -119,6 +124,9 @@ class HandPlayer(Hand):
                 profit = -self.bet 
             elif dealer_hand.status == "Bust":
                 profit = self.bet
+            elif dealer_hand.max_value == 21 and len(dealer_hand.hand_cards) == 2:
+                # the dealer has blackjack
+                profit = -self.bet
             else:
                 if self.max_value == dealer_hand.max_value:
                     #Push
@@ -133,7 +141,7 @@ class HandPlayer(Hand):
         return profit
 
     
-    
+
     def show_payout(self, profit):
         print(f"\n{self.player.name.upper()}")
         print(f"   Cards: {self.hand_cards}")

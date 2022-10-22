@@ -7,6 +7,7 @@ class Game:
 
     all_players = []
     round_hands = []
+    players_name = []
 
 
     def create_players(self):
@@ -28,6 +29,7 @@ class Game:
         for player in range(number_players):
             name_player = input(
                 f"What is the name of player number {player + 1 }? ")
+            self.players_name.append(name_player)
             while True:
                 try:
                     chips = int(input(f"How many chips will buy {name_player}? "))
@@ -54,7 +56,7 @@ class Game:
                 player_bet = 0
                 new_hand = HandDealer(bet = player_bet, player = player)
                 self.round_hands.append(new_hand)
-            else:
+            elif player.chips != 0:
                 print(f"{player.name} your balance is {player.chips} chips")
                 while True:
                     try:
@@ -137,7 +139,7 @@ class Game:
         dealer_hand.dealer_play()
 
 
-    
+
     def payout(self):
         clear.reset_screen()
         dealer_hand = self.round_hands[0]
@@ -148,7 +150,54 @@ class Game:
             hand = self.round_hands[index]
             profit = hand.bet_result(dealer_hand)
             hand.show_payout(profit)
+        input()
 
+
+
+    def buy_chips(self):
+        clear.reset_screen()
+        print("Will any player buy chips?\n")
+        for i in range(len(self.players_name)):
+            print(f"{i + 1}. {self.players_name[i]}")
+        buy = True
+        while buy:
+            try:
+                selection = int(input("\nSelect the number of the player or type 0 to continue: "))
+            except ValueError:
+                print(f"Type a number between 0 and {len(self.players_name)}")
+                continue
+            if selection < 0 or selection > len(self.players_name):
+                print(f"Type a number between 0 and {len(self.players_name)}")
+            else:
+                if selection == 0:
+                    buy = False
+                else:
+                    while True:
+                        try:
+                            chips = int(input(f"\n{self.all_players[selection].name}, how many chips will you buy? "))
+                        except ValueError:
+                            print("Type a number.")
+                            continue
+                        if chips < 0:
+                            print("Type a number greater than 0.")
+                        else: 
+                            break
+                    self.all_players[selection].chips += chips
+                    another_buy = input("\nType 'yes' if another player wants to buy chips: ")
+                    if another_buy.lower() != 'yes':
+                        buy = False
+
+            
+         #self.all_players[selection].chips += 
+
+
+
+    def check_balances(self):
+        any_player_with_chips = False
+        for index in range(1, len(self.all_players)):
+            if self.all_players[index].chips > 0:
+                any_player_with_chips = True
+        return any_player_with_chips
             
             
             
