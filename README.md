@@ -2,6 +2,6 @@
 
 Follow the next steps to play:
 
-''' sh
+``` sh
 python3 main.py
-'''
+```
