@@ -1,7 +1,7 @@
-from player import Player
-from handplayer import HandPlayer
-from handdealer import HandDealer
-import clear
+from player.player import Player
+from hands.handplayer import HandPlayer
+from hands.handdealer import HandDealer
+import utils.clear as clear
 
 class Game:
 

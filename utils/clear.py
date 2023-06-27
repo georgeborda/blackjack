@@ -1,5 +1,5 @@
 from os import system, name as nm
-import art
+import utils.art as art
 
 def reset_screen():
     """Clear the console"""
@@ -26,15 +26,3 @@ def farewell():
     print(art.logo)
     print(f"\n  {art.byebye}")
 
-# def check_type(expected_type, question):
-#     check = False
-#     options = {
-#         int : "number"
-#     }
-#     while check == False:
-#         user_input = input(f"{question}: ")
-#         if type(expected_type) == type(user_input):
-#             check = True
-#         else: 
-#             print()
-#     return user_input 

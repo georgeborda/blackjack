@@ -1,5 +1,5 @@
-from hand import Hand
-import clear
+from hands.hand import Hand
+import utils.clear as clear
 
 class HandPlayer(Hand):
 

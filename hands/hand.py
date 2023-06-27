@@ -1,6 +1,5 @@
-import cards
+import utils.cards as cards
 import random
-import cards
 
 class Hand:
     

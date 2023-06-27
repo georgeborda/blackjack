@@ -1,6 +1,5 @@
-from turtle import clear
-from game import Game
-import clear
+from game.game import Game
+import utils.clear as clear
 
 def main():
     game = Game()
