@@ -60,6 +60,8 @@ class Hand:
         if len(hand_values) == 2:
             if hand_values[1] <= 21:
                 self.max_value = hand_values[1]
+            else:
+                self.max_value = hand_values[0]
         else:
             self.max_value = hand_values[0]
         #return self.max_value

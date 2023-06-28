@@ -114,6 +114,7 @@ class HandPlayer(Hand):
         """Check the result of the round, calculate the profit and return it"""
         profit = int
         self.check_max_value()
+        
         if self.max_value == 21 and len(self.hand_cards) == 2:
             if dealer_hand.max_value == 21 and len(dealer_hand.hand_cards) == 2:
                 # player and dealer have blackjack

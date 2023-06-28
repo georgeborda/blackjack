@@ -2,15 +2,18 @@ from player.player import Player
 from hands.handplayer import HandPlayer
 from hands.handdealer import HandDealer
 import utils.clear as clear
+from typing import List
 
 class Game:
-
     all_players = []
     round_hands = []
     players_name = []
 
 
-    def create_players(self):
+    def create_players(self) -> None:
+        """
+        Create the players with their names and start bets, put them into all_players list
+        """
         clear.reset_screen()
         while True:
             try:
@@ -47,7 +50,7 @@ class Game:
         
       
   
-    def place_bet(self):
+    def place_bet(self) -> None:
         """Ask for a bet, create the hands and link each one with the player"""
         clear.reset_screen()
         self.round_hands.clear()
@@ -83,14 +86,17 @@ class Game:
          
   
 
-    def deal_round_cards(self):
+    def deal_round_cards(self) -> None:
+        """
+        Deal 2 cards for each player
+        """
         for i in range(2):
             for hand in self.round_hands:
                 hand.deal_card()
 
 
 
-    def show_all_hands(self, is_final_hand = False):
+    def show_all_hands(self, is_final_hand = False) -> None:
         clear.reset_screen()
         print("These are the hands:\n")
         for hand in self.round_hands:
@@ -99,7 +105,7 @@ class Game:
 
 
 
-    def split(self, index):
+    def split(self, index) -> None:
         """Split the hand when the player has two equal cards, deal a new card for each hand and place a bet for the second hand"""
         clear.reset_screen()
         first_hand = self.round_hands[index]
@@ -121,7 +127,7 @@ class Game:
 
 
 
-    def play(self):
+    def play(self) -> None:
         """The players play, take their decisions, the dealer shows his hidden card and plays too"""
         dealer_hand = self.round_hands[0]
         index = 0
@@ -143,7 +149,7 @@ class Game:
 
 
 
-    def payout(self):
+    def payout(self) -> None:
         """The dealer takes or gives money depending on the hands and bets"""
         clear.reset_screen()
         dealer_hand = self.round_hands[0]
@@ -158,7 +164,7 @@ class Game:
 
 
 
-    def buy_chips(self):
+    def buy_chips(self) -> None:
         clear.reset_screen()
         print("Will any player buy chips?\n")
         for i in range(len(self.players_name)):
@@ -196,7 +202,7 @@ class Game:
 
 
 
-    def check_balances(self):
+    def check_balances(self) -> bool:
         any_player_with_chips = False
         for index in range(1, len(self.all_players)):
             if self.all_players[index].chips > 0:
